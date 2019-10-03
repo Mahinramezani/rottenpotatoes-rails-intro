@@ -27,14 +27,16 @@ class MoviesController < ApplicationController
     #   @chosen_ratings = array_ratings
     #   @movies = Movie.where(rating: array_ratings).order params[:order]
     
-    # part3:
+    # part3: Remember the sorting and filtering settings
     session[:ratings] = params[:ratings] unless params[:ratings].nil?
     session[:order] = params[:order] unless params[:order].nil?
     @all_ratings = ['G','PG','PG-13','R']
     
+    # apply settings from session when the incoming URI doesn’t have params
     if ((params[:ratings].nil? && !session[:ratings].nil?) || (params[:order].nil? && !session[:order].nil?))
       redirect_to movies_path("ratings" => session[:ratings], "order" => session[:order])
-      
+    
+    # when URI has params, the new settings should be remembered in the session.
     elsif (!params[:ratings].nil? || !params[:order].nil?)
       if (!params[:ratings].nil?)
         array_ratings = params[:ratings].keys
