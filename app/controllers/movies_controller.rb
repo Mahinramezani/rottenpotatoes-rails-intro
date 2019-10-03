@@ -1,5 +1,6 @@
 class MoviesController < ApplicationController
   helper_method :hilight
+  helper_method :chosen_rating?
 
   def movie_params
     params.require(:movie).permit(:title, :rating, :description, :release_date)
@@ -12,8 +13,27 @@ class MoviesController < ApplicationController
   end
 
   def index
-    # sort the list of movies based on parameter
-    @movies = Movie.order(params[:order])
+    # part1: sort the list of movies based on parameter
+    # @movies = Movie.order(params[:order])
+    
+    
+    # part2: 
+    @all_ratings = ['G','PG','PG-13','R']
+    if params[:ratings].nil?
+      @movies = Movie.order params[:order]
+    else
+      # filter movies based on ratings
+      array_ratings = params[:ratings].keys
+      @chosen_ratings = array_ratings
+      @movies = Movie.where(rating: array_ratings).order params[:order]
+    end
+  end
+  
+  # The selected checkboxes should appear checked when the list is redisplayed
+  def chosen_rating?(rating)
+    chosen_ratings = params[:ratings]
+    return true if chosen_ratings.nil?
+    chosen_ratings.include? rating
   end
   
   # change the column's background color 

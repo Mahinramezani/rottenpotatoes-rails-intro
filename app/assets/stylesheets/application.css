@@ -17,3 +17,10 @@
 table#movies th.hilite {
   background-color: yellow;
 }
+
+#filter {
+  padding: 5px 20px;
+}
+#filter input[type=checkbox]{
+  margin:0 0.84em 0 0;
+}
