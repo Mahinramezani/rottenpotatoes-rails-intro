@@ -4,9 +4,13 @@
 %table#movies.table.table-striped.col-md-12
   %thead
     %tr
-      %th Movie Title
+      -# make title header into clickable link
+      %th{:class => hilight('title')}
+        %a#title_header{:href => "#{movies_path}?order=title"} Movie Title
       %th Rating
-      %th Release Date
+      -# make release date header into clickable link
+      %th{:class => hilight('release_date')} 
+        %a#release_date_header{:href => "#{movies_path}?order=release_date"} Release Date
       %th More Info
   %tbody
     - @movies.each do |movie|

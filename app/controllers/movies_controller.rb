@@ -1,4 +1,5 @@
 class MoviesController < ApplicationController
+  helper_method :hilight
 
   def movie_params
     params.require(:movie).permit(:title, :rating, :description, :release_date)
@@ -11,7 +12,17 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @movies = Movie.all
+    # sort the list of movies based on parameter
+    @movies = Movie.order(params[:order])
+  end
+  
+  # change the column's background color 
+  def hilight(column)
+    if(params[:order].to_s == column)
+      return 'hilite'
+    else
+      return nil
+    end
   end
 
   def new
